@@ -1,14 +1,14 @@
-import "dotenv/config";
-import type { Config } from "drizzle-kit";
+import { drizzle } from 'drizzle-orm/d1';
+import { getRequestContext } from '@cloudflare/next-on-pages';
 
-const databaseUrl = process.env.DATABASE_URL;
-if (!databaseUrl) {
-    throw new Error("DATABASE_URL environment variable is not set");
+export function getDb() {
+  // getRequestContext() is undefined during `next build` in standard Node.js
+  const env = getRequestContext()?.env;
+
+  if (!env || !env.DB) {
+    // Return null or mock instance during build phase
+    return null;
+  }
+
+  return drizzle(env.DB);
 }
-
-export default {
-    schema: "./src/db/schema.ts",
-    out: "./drizzle",
-    dialect: "sqlite",
-    dbCredentials: { url: databaseUrl },
-} satisfies Config;
