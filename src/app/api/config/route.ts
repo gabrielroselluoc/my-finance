@@ -13,7 +13,10 @@ export async function GET() {
         }
 
         const db = await getDb();
-
+        // Query D1
+        const results = await db.select().from(users).all();
+        return Response.json(results);
+        
         const userAccounts = await db
             .select()
             .from(account)
