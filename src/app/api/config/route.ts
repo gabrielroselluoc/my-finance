@@ -7,7 +7,7 @@ import { ACCOUNT_ICON_KEYS, CATEGORY_COLOR_PALETTE, CATEGORY_ICON_KEYS } from "@
 
 export const runtime = 'edge';
 
-import { getDb } from '@/lib/db';
+#import { getDb } from '@/lib/db';
 
 
 
