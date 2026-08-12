@@ -5,6 +5,12 @@ import { validateSession } from "@/lib/session";
 import { and, eq } from "drizzle-orm";
 import { ACCOUNT_ICON_KEYS, CATEGORY_COLOR_PALETTE, CATEGORY_ICON_KEYS } from "@/app/shared";
 
+export const runtime = 'edge';
+
+import { getDb } from '@/lib/db';
+
+
+
 export async function GET() {
     try {
         const user = await validateSession();
@@ -13,6 +19,9 @@ export async function GET() {
         }
 
         const db = await getDb();
+          if (!db) {
+              return Response.json({ error: 'Database binding unavailable' }, { status: 500 });
+          }
         // Query D1
         const results = await db.select().from(users).all();
         return Response.json(results);
